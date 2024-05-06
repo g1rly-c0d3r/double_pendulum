@@ -1,5 +1,6 @@
 # Double Pendulum simulator written in fortran
 
+A (not so) simple double pendulum simulation software written in fortran.
 ## goals: 
 - write a single-threaded simulator using gnuplot & ffmpeg to render the video
 - implement fortran-only rendering
