@@ -1,10 +1,24 @@
 program doublepen
-  use types, only: dp
-  use constants, only: PI
+  use diffeqsolver
+  use diffeqfunc
   implicit none
-  real(dp) :: radius1, theta1, dtheta1, d2theta1
-  real(dp) :: radius2, theta2, dtheta2, d2theta2
-  real(dp) :: time
+
+  integer, parameter :: dp = kind(0.d0)
+
+  real(dp), dimension(1000) :: y, t
+  real(dp), dimension(3)  :: init_cond
+  real(dp)                :: h 
+
+  integer :: i
+
+  h = 0.001
+  init_cond = [-4., 0., 0.]
+
+  CALL RK4(diffeq, init_cond, y, t, h)
+
+do i = 1, 1000
+  print*,  y(i)
+end do
 
   
 
