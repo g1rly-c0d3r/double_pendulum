@@ -9,8 +9,10 @@ OBJS = target/diffeqsolver.o target/function.o target/main.o
 all: $(OBJS)
 	${F95} ${F95FLAGS} -o target/double_pendulum $^
 
+target: 
+	@mkdir target
 run:
 	./target/double_pendulum
 
 clean:
-	rm target/*
+	rm -f target/*
