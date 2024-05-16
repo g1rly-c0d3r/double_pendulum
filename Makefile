@@ -11,7 +11,7 @@ all: $(OBJS)
 
 target: 
 	@mkdir target
-run:
+run: all
 	./target/double_pendulum
 
 clean:
