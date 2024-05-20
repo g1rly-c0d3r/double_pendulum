@@ -5,22 +5,28 @@ program doublepen
 
   integer, parameter :: dp = kind(0.d0)
 
-  real(dp), dimension(1000) :: y, t
-  real(dp), dimension(3)  :: init_cond
-  real(dp)                :: h 
+  integer, parameter          :: m = 2
+  integer, parameter          :: N = 100000
+  real(dp), dimension(N)      :: t
+  real(dp), dimension(N,m)    :: y
+  real(dp), dimension(3)      :: init_cond
+  real(dp)                    :: h, ynot, vnot, tnot, a, b
+
 
   integer :: i
 
-  h = 0.001
-  init_cond = [-4., 0., 0.]
+  a = 0.0_dp
+  b = 8.0_dp
+  h = real(b - a, dp) / N
+  tnot = 0 
+  ynot = 100
+  vnot = 0
 
-  CALL RK4(diffeq, init_cond, y, t, h)
+  init_cond = [ynot, vnot, tnot]
 
-do i = 1, 1000
-  print*,  y(i)
-end do
+  CALL sys_RK4(diffeq, init_cond, y, t, h, m)
 
-  
+  print*, y(N,:)
 
 end program doublepen
 
