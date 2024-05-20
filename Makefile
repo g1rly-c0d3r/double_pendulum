@@ -9,6 +9,10 @@ OBJS = target/diffeqsolver.o target/function.o target/main.o
 all: $(OBJS)
 	${F95} ${F95FLAGS} -o target/double_pendulum $^
 
+debug:
+	${F95} -g -o target/debug src/function.f95 src/diffeqsolver.f95 src/main.f95 
+	gdb target/debug
+
 target: 
 	@mkdir target
 run: all
