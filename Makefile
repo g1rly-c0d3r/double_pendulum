@@ -14,9 +14,9 @@ debug:
 	gdb target/debug
 
 target: 
-	@mkdir target
+	@mkdir -p target/data
 run: all
 	./target/double_pendulum
 
 clean:
-	rm -f target/*
+	rm -rf target/*

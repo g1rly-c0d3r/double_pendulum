@@ -7,15 +7,18 @@ program doublepen
   real(dp), parameter :: pi = 3.1415926535897932384626433832795_dp
 
   integer, parameter          :: m = 4
-  integer, parameter          :: N = 600
+  integer, parameter          :: N = 9
   real(dp), dimension(N)      :: t
   real(dp), dimension(N,m)    :: y
   real(dp), dimension(5)      :: init_cond
   real(dp)                    :: h, theta1, theta2, omega1, omega2, tnot, a, b
   real(dp), dimension(N)      :: x1, y1, x2, y2
 
+  integer                     :: fstream
+  character(len=100)           :: filename
 
-  integer :: i
+
+  integer :: i, j
 
   a = 0.0_dp
   b = 60.0_dp
@@ -36,6 +39,15 @@ program doublepen
 
   x2 = x1 + cos(y(:,2) - pi/2) 
   y2 = y1 + sin(y(:,2) - pi/2)
+
+do i = 1, N
+  filename = "target/data/pos_"//char(i + 48)//".dat"
+  open(newunit=fstream, file=filename, status="replace", action="write")
+
+  write(fstream, *) x1(i), y1(i), x2(i), y2(i)
+  close(fstream)
+end do
+
 
 
 end program doublepen
