@@ -15,7 +15,7 @@ function itterate(dydt, t, Y_n, h, m) result(Y_n1)
   real(dp), dimension(4,m) :: k
   real(dp), intent(in)     :: h
   integer, intent(in)      :: m
-  procedure(diffeq)         :: dydt
+  procedure(diffeq)        :: dydt
 
   k(1, :) = h * dydt(t, Y_n)
 
@@ -72,8 +72,8 @@ subroutine sys_RK4(dydt, init_cond, y, t, h, m)
   procedure(diffeq)         :: dydt
   integer                   :: i
 
-  y(1,:) = itterate(dydt, init_cond(3), [init_cond(1), init_cond(2)], h, m)
-  t(1) = init_cond(3) + h
+  y(1,:) = itterate(dydt, init_cond(m), init_cond(1:m:1), h, m)
+  t(1) = init_cond(m) + h
 
 do i = 1, SIZE(y,1) - 1
   y(i+1, :) = itterate(dydt, t(i), y(i,:), h, m)
