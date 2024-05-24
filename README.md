@@ -4,7 +4,7 @@ A (not so) simple double pendulum simulation software written in ForTran.
 
 ## goals: 
 
-- In Progress: write a single-threaded simulator using gnuplot & ffmpeg to render the video
+- Complete! ~~write a single-threaded simulator using gnuplot & ffmpeg to render the video~~
 - implement ForTran-only rendering
 - parallelize simulation compute & rendering using openMP
 - implement GPU compute for simulation using openMP

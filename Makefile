@@ -6,17 +6,18 @@ target/%.o: src/%.f95
 
 OBJS = target/function.o target/diffeqsolver.o target/main.o
 
-all: $(OBJS)
+all: $(OBJS) 
 	${F95} ${F95FLAGS} -o target/double_pendulum $^
 
 debug:
 	${F95} -g -o target/debug src/function.f95 src/diffeqsolver.f95 src/main.f95 
 	gdb target/debug
 
-target: 
-	@mkdir -p target/data
 run: all
+	rm -f target/data/*
 	./target/double_pendulum
+	bash src/gen_vid.bash
 
 clean:
-	rm -rf target/*
+	rm -rf target
+	mkdir -p target/data
