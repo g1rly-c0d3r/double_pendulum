@@ -49,8 +49,6 @@ do i = 1, N
     filenum(DIGITS(N) -3 - j : DIGITS(N) -3 - j) = char(mod(i/10**(j-1), 10) + 48)
   end do
 
-
-!  filenum = char(mod(i/1000, 10) + 48)//char(mod(i/100, 10) + 48)//char(mod(i/10, 10) + 48)//char(mod(i, 10) + 48)
   filename = "target/data/pos_"//filenum//".dat"
   open(newunit=fstream, file=filename, status="replace", action="write")
 
