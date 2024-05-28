@@ -1,13 +1,14 @@
 program doublepen
   use diffeqsolver
   use diffeqfunc
+  use unix
   implicit none
 
   integer, parameter  :: dp = kind(0.d0)
   real(dp), parameter :: pi = 3.1415926535897932384626433832795_dp
 
   integer, parameter          :: m = 4
-  integer, parameter          :: N = 9999
+  integer, parameter          :: N = 1000
   real(dp), dimension(N)      :: t
   real(dp), dimension(N,m)    :: y
   real(dp), dimension(5)      :: init_cond
@@ -17,8 +18,7 @@ program doublepen
 
   integer                     :: fstream
   character(len=100)          :: filename
-  character(len=4)            :: filenum
-
+  character(len=DIGITS(N)-4)  :: filenum
 
   integer :: i, j
 
@@ -45,8 +45,13 @@ program doublepen
   y2 = y1 + l2 * sin(y(:,2) - pi/2)
 
 do i = 1, N
-  filenum = char(mod(i/1000, 10) + 48)//char(mod(i/100, 10) + 48)//char(mod(i/10, 10) + 48)//char(mod(i, 10) + 48)
-  filename = "target/data/pos_"// filenum //".dat"
+  do j = 1, DIGITS(N) - 4 
+    filenum(DIGITS(N) -3 - j : DIGITS(N) -3 - j) = char(mod(i/10**(j-1), 10) + 48)
+  end do
+
+
+!  filenum = char(mod(i/1000, 10) + 48)//char(mod(i/100, 10) + 48)//char(mod(i/10, 10) + 48)//char(mod(i, 10) + 48)
+  filename = "target/data/pos_"//filenum//".dat"
   open(newunit=fstream, file=filename, status="replace", action="write")
 
   write(fstream, *) 0, 0
