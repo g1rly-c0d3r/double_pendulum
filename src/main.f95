@@ -7,8 +7,13 @@ program doublepen
   integer, parameter  :: dp = kind(0.d0)
   real(dp), parameter :: pi = 3.1415926535897932384626433832795_dp
 
+  character(len=20), parameter :: GNUPLOT = "/usr/bin/gnuplot"
+  integer                      :: rc
+  type(c_ptr)                  :: gnp_ptr
+
+
   integer, parameter          :: m = 4
-  integer, parameter          :: N = 1000
+  integer, parameter          :: N = 6000
   real(dp), dimension(N)      :: t
   real(dp), dimension(N,m)    :: y
   real(dp), dimension(5)      :: init_cond
@@ -56,6 +61,14 @@ do i = 1, N
   write(fstream, *) x1(i), y1(i)
   write(fstream, *) x2(i), y2(i)
   close(fstream)
+
+  gnp_ptr = c_popen(GNUPLOT//"-e 'set term png; &
+                                  set output """//trim(filename)//".png"";&
+                                  set grid;&
+                                  set xrange[-2:2];&
+                                  set yrange[-2:2];&
+                                  plot """//trim(filename)//""" w linespoints lt 7;'", "w")
+  rc = c_pclose(gnp_ptr)
 end do
 
 
