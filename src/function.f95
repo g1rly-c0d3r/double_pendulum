@@ -19,10 +19,10 @@ function diffeq(t, y) result(yprime)
   yprime(1) = y(3)
   yprime(2) = y(4)
 
-  yprime(3) =  (  -g*(2*m1+m2)*sin(y(1)) - m2*g*sin(y(1)-2*y(2))-2*sin(y(1)-y(2))*m2*((y(4)**2) *l2 + (y(3)**2) * l1 * cos(y(1)-y(2)))  )  / &
+yprime(3)=(-g*(2*m1+m2)*sin(y(1)) - m2*g*sin(y(1)-2*y(2))-2*sin(y(1)-y(2))*m2*((y(4)**2) *l2 + (y(3)**2) * l1 * cos(y(1)-y(2)))  )/&
               ( l1*( 2*m1 + m2 - m2*cos(2*y(1) - 2 * y(2)) ) )
   
-  yprime(4) =  (  2 * sin(y(1) - y(2)) * ( y(3)**2 * l1 * (m1 + m2) + g*(m1+m2) * cos(y(1)) + y(4)**2 * l2 * m2*cos(y(1) - y(2)) )  ) / &
+yprime(4)=(  2 * sin(y(1) - y(2)) * ( y(3)**2 * l1 * (m1 + m2) + g*(m1+m2) * cos(y(1)) + y(4)**2 * l2 * m2*cos(y(1) - y(2)) )  ) / &
               ( l2 * (2*m1 + m2 - m2*cos(2*y(1)-2*y(2))) )
   
 end function diffeq
