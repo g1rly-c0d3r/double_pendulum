@@ -1,6 +1,7 @@
 program doublepen
   use diffeqsolver
   use diffeqfunc
+  use unix
   implicit none
 
   integer, parameter  :: dp = kind(0.d0)
@@ -27,8 +28,8 @@ program doublepen
   h = real(b - a, dp) / N
   
   tnot = 0.0_dp
-  theta1 = 1e-12_dp
-  theta2 = 0.1_dp
+  theta1 = 0.0_dp
+  theta2 = 0.0_dp
   omega1 = 0.0_dp
   omega2 = 0.0_dp
   l1 = 1.0_dp

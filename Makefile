@@ -7,7 +7,7 @@ target/%.o: src/%.f95
 OBJS = target/function.o target/diffeqsolver.o target/main.o
 
 all: $(OBJS) 
-	${F95} ${F95FLAGS} -o target/double_pendulum $^
+	${F95} ${F95FLAGS} -o target/double_pendulum $^ -lfortran-unix
 
 debug:
 	${F95} -g -o target/debug src/function.f95 src/diffeqsolver.f95 src/main.f95 
