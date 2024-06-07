@@ -16,7 +16,7 @@ program doublepen
 
 
   integer, parameter          :: m = 4
-  integer, parameter          :: N = 60
+  integer, parameter          :: N = 6000
   real(dp), dimension(N)      :: t
   real(dp), dimension(N,m)    :: y
   real(dp), dimension(5)      :: init_cond
@@ -36,7 +36,7 @@ program doublepen
   h = real(b - a, dp) / N
   
   tnot = 0.0_dp
-  theta1 = 0.0_dp
+  theta1 = 1.0_dp
   theta2 = pi/4
   omega1 = 0.0_dp
   omega2 = 0.0_dp
@@ -56,9 +56,9 @@ program doublepen
 !$omp parallel do private(filenum, filename, j, fstream, rc)
 
 do i = 1, N
-  write(filenum, "(I10)") i
-  filenum = '0'//filenum
-
+  do j = 1, DIGITS(N)-4
+    filenum(DIGITS(N) - 3 - j:DIGITS(N) - 3 - j) = char(mod(i/10**(j-1),10) +48)
+  end do
   filename = "target/data/pos_"//TRIM(ADJUSTL(filenum))//".dat"
   open(newunit=fstream, file=filename, status="replace", action="write")
 
