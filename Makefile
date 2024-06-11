@@ -1,5 +1,5 @@
 F95 = gfortran
-F95FLAGS = -O3 -march=native -Isrc/ -I"${HOME}/.local/include" -Jtarget/
+F95FLAGS = -O2 -march=native -Isrc/ -I"${HOME}/.local/include" -Jtarget/
 UNIXMODPATH=~/.local/include/libfortran-unix/unix.mod
 PLPLOTMODPATH=~/.local/lib/fortran/modules/plplot/plplot.mod
 
