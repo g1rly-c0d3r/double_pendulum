@@ -10,8 +10,8 @@ function diffeq(t, y) result(yprime)
   real(dp), intent(in)   :: t
   real(dp), intent(in)   :: y(:)
   real(dp), dimension(4) :: yprime 
-  real(dp), parameter    :: m1 = 2 !kg
-  real(dp), parameter    :: m2 = 2 !kg
+  real(dp), parameter    :: m1 = 1 !kg
+  real(dp), parameter    :: m2 = 1 !kg
   real(dp), parameter    :: l1 = 1 !m
   real(dp), parameter    :: l2 = 1 !m
   real(dp), parameter    :: g = 9.80665 !m/s**2

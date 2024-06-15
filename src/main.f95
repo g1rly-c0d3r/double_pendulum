@@ -2,6 +2,7 @@ program doublepen
   use diffeqsolver
   use diffeqfunc
   use unix
+  use plplot
   use OMP_LIB
   implicit none
 
@@ -16,7 +17,7 @@ program doublepen
 
 
   integer, parameter          :: m = 4
-  integer, parameter          :: N = 6000
+  integer, parameter          :: N = 600
   real(dp), dimension(N)      :: t
   real(dp), dimension(N,m)    :: y
   real(dp), dimension(5)      :: init_cond
@@ -53,35 +54,57 @@ program doublepen
   x2 = x1 + l2 * cos(y(:,2) - pi/2) 
   y2 = y1 + l2 * sin(y(:,2) - pi/2)
 
-!$omp parallel do private(filenum, filename, j, fstream, rc)
 
-do i = 1, N
+!!$omp parallel do private(filenum, filename, j, fstream, rc)
+!do i = 1, N
+!  do j = 1, DIGITS(N)-4
+!    filenum(DIGITS(N) - 3 - j:DIGITS(N) - 3 - j) = char(mod(i/10**(j-1),10) +48)
+!  end do
+!  filename = "target/data/pos_"//TRIM(ADJUSTL(filenum))//".dat"
+!  open(newunit=fstream, file=filename, status="replace", action="write")
+!
+!  write(fstream, *) 0, 0
+!  write(fstream, *) x1(i), y1(i)
+!  write(fstream, *) x2(i), y2(i)
+!  close(fstream)
+!
+!  gnp_ptr = c_popen(GNUPLOT//"-e 'set term png; &
+!                                  set output """//trim(filename)//".png"";&
+!                                  set grid;&
+!                                  set xrange[-2:2];&
+!                                  set yrange[-2:2];&
+!                                  plot """//trim(filename)//""" w linespoints lt 7;'", "w")
+!  rc = c_pclose(gnp_ptr)
+!end do
+
+!!$omp parallel do private(filenum, filename, j, rc)
+do i = 1, N 
   do j = 1, DIGITS(N)-4
     filenum(DIGITS(N) - 3 - j:DIGITS(N) - 3 - j) = char(mod(i/10**(j-1),10) +48)
   end do
-  filename = "target/data/pos_"//TRIM(ADJUSTL(filenum))//".dat"
-  open(newunit=fstream, file=filename, status="replace", action="write")
+  filename = "target/data/pos_"//TRIM(ADJUSTL(filenum))//".png"
+  rc = plparseopts(PL_PARSE_FULL)
+  rc = plsetopt('o', TRIM(filename))
+  call plinit()
+  call plcol0(15)
+  
+  call plenv(-2., 2., -2., 2., 0, 0)
+  call pllab('','',filename)
+  
+  call pljoin(0._dp, 0._dp, x1(i), y1(i))
+  call pljoin(x1(i), y1(i), x2(i), y2(i))
+  call plstring([x1(i), x2(i)], [y1(i), y2(i)], '*')
 
-  write(fstream, *) 0, 0
-  write(fstream, *) x1(i), y1(i)
-  write(fstream, *) x2(i), y2(i)
-  close(fstream)
-
-  gnp_ptr = c_popen(GNUPLOT//"-e 'set term png; &
-                                  set output """//trim(filename)//".png"";&
-                                  set grid;&
-                                  set xrange[-2:2];&
-                                  set yrange[-2:2];&
-                                  plot """//trim(filename)//""" w linespoints lt 7;'", "w")
-  rc = c_pclose(gnp_ptr)
+  call plend()
 end do
+  
 
 write(framerate, "(I20)") N / int(b-a)
 
-ffmpg_ptr = c_popen(TRIM(TRIM(FFMPEG)//" -framerate "//TRIM(ADJUSTL(framerate))//" -pattern_type glob -i 'target/data/*.png' -c:v libx264 -r 200 -f mp4 double_pendulum.mp4;"), "w")
+ffmpg_ptr = c_popen(TRIM(TRIM(FFMPEG)//" -framerate "//TRIM(ADJUSTL(framerate))&
+  //" -pattern_type glob -i 'target/data/*.png' -c:v libx264 -r 200 -f mp4 double_pendulum.mp4;"), "w")
 
 rc = c_pclose(ffmpg_ptr)
 
 
 end program doublepen
-
