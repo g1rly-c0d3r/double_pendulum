@@ -9,7 +9,6 @@ program doublepen
   integer, parameter  :: dp = kind(0.d0)
   real(dp), parameter :: pi = 3.1415926535897932384626433832795_dp
 
-  character(len=20), parameter :: GNUPLOT = "/usr/bin/gnuplot"
   character(len=30), parameter :: FFMPEG = "/usr/bin/ffmpeg -y"
   integer                      :: rc
   type(c_ptr)                  :: gnp_ptr
@@ -17,7 +16,7 @@ program doublepen
 
 
   integer, parameter          :: m = 4
-  integer, parameter          :: N = 600
+  integer, parameter          :: N = 6000
   real(dp), dimension(N)      :: t
   real(dp), dimension(N,m)    :: y
   real(dp), dimension(5)      :: init_cond
@@ -55,29 +54,6 @@ program doublepen
   y2 = y1 + l2 * sin(y(:,2) - pi/2)
 
 
-!!$omp parallel do private(filenum, filename, j, fstream, rc)
-!do i = 1, N
-!  do j = 1, DIGITS(N)-4
-!    filenum(DIGITS(N) - 3 - j:DIGITS(N) - 3 - j) = char(mod(i/10**(j-1),10) +48)
-!  end do
-!  filename = "target/data/pos_"//TRIM(ADJUSTL(filenum))//".dat"
-!  open(newunit=fstream, file=filename, status="replace", action="write")
-!
-!  write(fstream, *) 0, 0
-!  write(fstream, *) x1(i), y1(i)
-!  write(fstream, *) x2(i), y2(i)
-!  close(fstream)
-!
-!  gnp_ptr = c_popen(GNUPLOT//"-e 'set term png; &
-!                                  set output """//trim(filename)//".png"";&
-!                                  set grid;&
-!                                  set xrange[-2:2];&
-!                                  set yrange[-2:2];&
-!                                  plot """//trim(filename)//""" w linespoints lt 7;'", "w")
-!  rc = c_pclose(gnp_ptr)
-!end do
-
-!!$omp parallel do private(filenum, filename, j, rc)
 do i = 1, N 
   do j = 1, DIGITS(N)-4
     filenum(DIGITS(N) - 3 - j:DIGITS(N) - 3 - j) = char(mod(i/10**(j-1),10) +48)
