@@ -14,8 +14,10 @@ debug:
 	${F95} -g -Jtarget/ -o target/debug src/function.f95 src/diffeqsolver.f95 src/main.f95 -lfortran-unix -lplplotfortran
 	gdb target/debug
 
-run: clean all 
+run: all 
+	rm -f target/data/*
 	./target/double_pendulum -dev pngcairo
+
 
 clean:
 	rm -f double_pendulum.mp4
