@@ -16,4 +16,4 @@ A (not so) simple double pendulum simulation software written in ForTran.
 - ffmpeg, a command-line video utility, used for compiling each frame
 
 - [Fortran-unix](https://github.com/interkosmos/fortran-unix), a library to access posix pipes to fork the ffmpeg proccess to generate the video.
-- [PLPlot](www.plplot.org), a plotting library written in C to plot the data
+- [PLPlot](http://www.plplot.org), a plotting library written in C to plot the data
