@@ -8,6 +8,7 @@ module diffeqsolver
   integer, parameter :: dp = kind(0.d0)
 contains 
 
+  ! computes the next time step of the equation
 function itterate(dydt, t, Y_n, h, m) result(Y_n1)
   real(dp), intent(in)     :: t 
   real(dp), intent(in)     :: Y_n(:)
@@ -29,7 +30,7 @@ function itterate(dydt, t, Y_n, h, m) result(Y_n1)
 
 end function
   
-
+! solves a single diffeq
 subroutine RK4(dydt, init_cond, y, t, h)
   real(dp), intent(in)   :: init_cond(:)
   real(dp), intent(out)  :: y(:)
@@ -45,23 +46,19 @@ subroutine RK4(dydt, init_cond, y, t, h)
 do i = 1, SIZE(y) - 1   
   k(1) = dydt(t(i), y(i)) 
 
-  k(2) = dydt(t(i), y(i) + h*k(1) / 2)
+  k(2) = dydt(t(i), y(i) + k(1) / 2)
 
-  k(3) = dydt(t(i), y(i) + h*k(2) / 2)
+  k(3) = dydt(t(i), y(i) + k(2) / 2)
 
-  k(4) = dydt(t(i), y(i) + h*k(3))
+  k(4) = dydt(t(i), y(i) + k(3))
 
   y(i+1) = y(i) + (h/6) * (k(1) + 2*k(2) + 2*k(3) + k(4))
 
   t(i+1) = t(i) + h
 end do
-
-  
 end subroutine RK4
 
-
-
-
+! solves a system of diffeqs
 subroutine sys_RK4(dydt, init_cond, y, t, h, m)
   integer, intent(in)       :: m
   real(dp), intent(in)      :: init_cond(:)
@@ -75,14 +72,13 @@ subroutine sys_RK4(dydt, init_cond, y, t, h, m)
   y(1,:) = itterate(dydt, init_cond(m), init_cond(1:m:1), h, m)
   t(1) = init_cond(m) + h
 
+  ! calls the itterate function
 do i = 1, SIZE(y,1) - 1
   y(i+1, :) = itterate(dydt, t(i), y(i,:), h, m)
 end do
-
-  
 end subroutine
 
-
+! eulers method to solve a diffeq
 subroutine euler(dydt, init_cond, y, h, n)
   real(dp)              :: dydt
   real(dp), intent(in)  :: init_cond(:)
@@ -101,7 +97,6 @@ end if
 do i = 2, n
   y(i) = y(i-1) + h * dydt(y(i-1))
 end do
-
 end subroutine euler
     
 end module diffeqsolver
