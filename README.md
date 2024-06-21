@@ -13,7 +13,7 @@ A (not so) simple double pendulum simulation software written in ForTran.
 
 - A ForTran compiler, can be specified in the Makefile, default is GForTran
 - A Make implementation, I use GNU Make 
-- ffmpeg, a command-line video utility, used for compiling each frame
+- [ffmpeg](https://ffmpeg.com), a command-line video utility, used for compiling each frame
 
 - [Fortran-unix](https://github.com/interkosmos/fortran-unix), a library to access posix pipes to fork the ffmpeg proccess to generate the video.
 - [PLPlot](http://www.plplot.org), a plotting library written in C to plot the data
