@@ -16,7 +16,7 @@ program doublepen
 
 
   integer, parameter          :: m = 4
-  integer, parameter          :: N = 6000
+  integer, parameter          :: N = 3000
   real(dp), dimension(N)      :: t
   real(dp), dimension(N,m)    :: y
   real(dp), dimension(5)      :: init_cond
@@ -36,7 +36,7 @@ program doublepen
   h = real(b - a, dp) / N
   
   tnot = 0.0_dp
-  theta1 = 1.0_dp
+  theta1 = 3*pi/4
   theta2 = pi/4
   omega1 = 0.0_dp
   omega2 = 0.0_dp
