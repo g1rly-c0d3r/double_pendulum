@@ -19,11 +19,11 @@ function itterate(dydt, t, Y_n, h, m) result(Y_n1)
 
   k(1, :) = h * dydt(t, Y_n)
 
-  k(2, :) = h * dydt( t + (h/2), Y_n + h*k(1, :)/2)
+  k(2, :) = h * dydt( t + (h/2), Y_n + k(1, :)/2)
 
-  k(3, :) = h * dydt(t + (h/2), Y_n + h*k(2, :) / 2)
+  k(3, :) = h * dydt(t + (h/2), Y_n + k(2, :) / 2)
 
-  k(4, :) = h * dydt(t + h, Y_n + h*k(3, :))
+  k(4, :) = h * dydt(t + h, Y_n + k(3, :))
 
   Y_n1 = Y_n + ((k(1, :) + 2*k(2,:) + 2*k(3,:) + k(4,:)) / 6)
 
