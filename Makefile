@@ -1,6 +1,6 @@
-F95 = gfortran
-F95FLAGS = -O2 -march=native -Isrc/ -I"${HOME}/.local/include" -Jtarget/
 PLPLOTMODPATH=~/.local/lib/fortran/modules/plplot/
+F95 = gfortran
+F95FLAGS = -O2 -march=native -Isrc/ -I"${HOME}/.local/include" -I${PLPLOTMODPATH} -Jtarget/
 
 target/%.o: src/%.f95
 	${F95} ${F95FLAGS} -c -o $@ $^ -lfortran-unix -lplplotfortran -fopenmp
@@ -23,4 +23,3 @@ clean:
 	rm -f double_pendulum.mp4
 	rm -rf target
 	mkdir -p target/data
-	cp ${PLPLOTMODPATH}plplot.mod target/
