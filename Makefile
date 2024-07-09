@@ -1,4 +1,4 @@
-PLPLOTMODPATH=~/.local/lib/fortran/modules/plplot/
+PLPLOTMODPATH=${HOME}/.local/lib/fortran/modules/plplot/
 F95 = gfortran
 F95FLAGS = -O2 -march=native -Isrc/ -I"${HOME}/.local/include" -I${PLPLOTMODPATH} -Jtarget/
 
@@ -11,7 +11,7 @@ all: $(OBJS)
 	${F95} ${F95FLAGS} -I${PLPLOTMODPATH} -o target/double_pendulum $^ -lfortran-unix -lplplotfortran -fopenmp
 
 debug:
-	${F95} -g -Jtarget/ -o target/debug src/function.f95 src/diffeqsolver.f95 src/main.f95 -lfortran-unix -lplplotfortran
+	${F95} -g -Jtarget/ -I${HOME}/.local/include -I${PLPLOTMODPATH} -o target/debug src/function.f95 src/diffeqsolver.f95 src/plot.f95 src/main.f95 -lfortran-unix -lplplotfortran
 	gdb target/debug
 
 run: all 
