@@ -1,5 +1,4 @@
 module plot
-  use unix
   use plplot
 implicit none
 
@@ -16,7 +15,6 @@ contains
     integer, intent(in)              :: N
 
     integer                          :: rc, i, j
-    type(c_ptr)                      :: ffmpg_ptr
     character(len=100)               :: filename
     character(len=DIGITS(N)-4)       :: filenum
     character(len=20)                :: framerate
@@ -44,11 +42,15 @@ contains
     end do
 
     write(framerate, "(I20)") framerate_num
-    
-    ffmpg_ptr = c_popen(TRIM(TRIM(FFMPEG)//" -loglevel 24 -y -framerate "//TRIM(ADJUSTL(framerate))&
-      //" -pattern_type glob -i 'target/data/*.png' -c:v libx264 -r 200 -f mp4 double_pendulum.mp4;"), "w")
-    
-    rc = c_pclose(ffmpg_ptr)
+
+    call execute_command_line(TRIM(TRIM(FFMPEG)//" -loglevel 24 -y -framerate "//TRIM(ADJUSTL(framerate))&
+      //" -pattern_type glob -i 'target/data/*.png' -c:v libx264 -r 200 -f mp4 double_pendulum.mp4;"))
+
+!    
+!    ffmpg_ptr = c_popen(TRIM(TRIM(FFMPEG)//" -loglevel 24 -y -framerate "//TRIM(ADJUSTL(framerate))&
+!      //" -pattern_type glob -i 'target/data/*.png' -c:v libx264 -r 200 -f mp4 double_pendulum.mp4;"), "w")
+!    
+!    rc = c_pclose(ffmpg_ptr)
 
   end subroutine plot_vid
 
