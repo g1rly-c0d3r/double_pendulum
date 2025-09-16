@@ -1,4 +1,4 @@
-PLPLOTMODPATH=${HOME}/.local/lib/fortran/modules/plplot/
+PLPLOTMODPATH=/usr/lib/fortran/modules/plplot
 F95 = gfortran
 F95FLAGS = -O2 -march=native -Isrc/ -I"${HOME}/.local/include" -I${PLPLOTMODPATH} -Jtarget/ -L ~/.local/lib/
 
@@ -8,7 +8,7 @@ target/%.o: src/%.f95
 OBJS = target/function.o target/diffeqsolver.o target/plot.o target/main.o
 
 all: $(OBJS) 
-	${F95} ${F95FLAGS} -I${PLPLOTMODPATH} -o target/double_pendulum $^ -lplplotfortran -fopenmp
+	${F95} -I${PLPLOTMODPATH} -o target/double_pendulum $^ -lplplotfortran -fopenmp
 	 
 
 debug:
@@ -17,10 +17,11 @@ debug:
 
 run: all 
 	rm -f target/data/*
-	./target/double_pendulum -dev svg
+	./target/double_pendulum -dev pngcairo
 
 
+.PHONY:clean
 clean:
-	rm -f double_pendulum.mp4
+	rm -f double_pendulum.mp4 ./time_log
 	rm -rf target
 	mkdir -p target/data
